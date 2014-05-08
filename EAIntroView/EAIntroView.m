@@ -638,7 +638,7 @@ float easeOutValue(float value) {
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
     if(self.showSkipButtonOnlyOnLastPage) self.skipButton.alpha = 0;
-    if(self.showStartButtonOnLastPage) self.startButton.alpha = 0;
+    self.startButton.alpha = 0;
     
     self.alpha = 0;
     self.scrollView.contentOffset = CGPointZero;
