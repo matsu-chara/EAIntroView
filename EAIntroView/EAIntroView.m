@@ -180,6 +180,7 @@
     self.bgImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.pageControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.skipButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.startButton.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 }
 
 - (void)buildBackgroundImage {
@@ -331,6 +332,11 @@
     [self.skipButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.skipButton];
     
+    self.startButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 80, 30)];
+    [self.startButton setTitle:NSLocalizedString(@"Start", nil) forState:UIControlStateNormal];
+    [self.startButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.startButton];
+    
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControl attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterX multiplier:1 constant:0]];
     [self addConstraint:[NSLayoutConstraint constraintWithItem:self.pageControl attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.skipButton attribute:NSLayoutAttributeCenterY multiplier:1 constant:0]];
@@ -431,6 +437,20 @@ float easeOutValue(float value) {
             [self.skipButton setAlpha:alphaValue];
         }
     }
+    
+    if(self.startButton) {
+        if(!self.showStartButtonOnLastPage) {
+            [self.startButton setAlpha:0.0];
+        } else if(page < (long)[self.pages count] - 2) {
+            [self.startButton setAlpha:0.0];
+        } else if(page == [self.pages count] - 1) {
+            [self.skipButton setAlpha:(alphaValue)];
+            [self.startButton setAlpha:(1 - alphaValue)];
+        } else {
+            [self.skipButton setAlpha:(1 - alphaValue)];
+            [self.startButton setAlpha:alphaValue];
+        }
+    }
 }
 
 - (UIImage *)bgForPage:(NSInteger)idx {
@@ -521,8 +541,22 @@ float easeOutValue(float value) {
     [self addSubview:_skipButton];
 }
 
+- (void)setStartButton:(UIButton *)startButton {
+    [_startButton removeFromSuperview];
+    _startButton = startButton;
+    [_startButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_startButton];
+}
+
 - (void)setShowSkipButtonOnlyOnLastPage:(bool)showSkipButtonOnlyOnLastPage {
     _showSkipButtonOnlyOnLastPage = showSkipButtonOnlyOnLastPage;
+    
+    float offset = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
+    [self crossDissolveForOffset:offset];
+}
+
+- (void)setShowStartButtonOnLastPage:(bool)showStartButtonOnLastPage {
+    _showStartButtonOnLastPage =  showStartButtonOnLastPage;
     
     float offset = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
     [self crossDissolveForOffset:offset];
@@ -604,7 +638,8 @@ float easeOutValue(float value) {
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
     if(self.showSkipButtonOnlyOnLastPage) self.skipButton.alpha = 0;
-
+    if(self.showStartButtonOnLastPage) self.startButton.alpha = 0;
+    
     self.alpha = 0;
     self.scrollView.contentOffset = CGPointZero;
     [view addSubview:self];
