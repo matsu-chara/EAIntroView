@@ -22,13 +22,13 @@
 
 // titleView Y position - from top of the screen
 // pageControl Y position - from bottom of the screen
-// if showSkipButtonOnlyOnLastPage == YES && showStartButtonOnLastPage == YES; you will see only start button.
+// if showSkipButtonOnlyOnLastPage == YES && showStartButtonOnLastPageInsteadOfSkipButton == YES; you will see only start button.
 @property (nonatomic, assign) bool swipeToExit;
 @property (nonatomic, assign) bool tapToNext;
 @property (nonatomic, assign) bool hideOffscreenPages;
 @property (nonatomic, assign) bool easeOutCrossDisolves;
 @property (nonatomic, assign) bool showSkipButtonOnlyOnLastPage;
-@property (nonatomic, assign) bool showStartButtonOnLastPage;
+@property (nonatomic, assign) bool showStartButtonOnLastPageInsteadOfSkipButton;
 @property (nonatomic, assign) bool useMotionEffects;
 @property (nonatomic, assign) CGFloat motionEffectsRelativeValue;
 @property (nonatomic, strong) UIImage *bgImage;

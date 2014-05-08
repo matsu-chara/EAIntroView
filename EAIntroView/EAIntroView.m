@@ -439,7 +439,7 @@ float easeOutValue(float value) {
     }
     
     if(self.startButton) {
-        if(!self.showStartButtonOnLastPage) {
+        if(!self.showStartButtonOnLastPageInsteadOfSkipButton) {
             [self.startButton setAlpha:0.0];
         } else if(page < (long)[self.pages count] - 2) {
             [self.startButton setAlpha:0.0];
@@ -555,8 +555,8 @@ float easeOutValue(float value) {
     [self crossDissolveForOffset:offset];
 }
 
-- (void)setShowStartButtonOnLastPage:(bool)showStartButtonOnLastPage {
-    _showStartButtonOnLastPage =  showStartButtonOnLastPage;
+- (void)setShowStartButtonOnLastPageInsteadOfSkipButton:(bool)showStartButtonOnLastPageInsteadOfSkipButton {
+    _showStartButtonOnLastPageInsteadOfSkipButton =  showStartButtonOnLastPageInsteadOfSkipButton;
     
     float offset = self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
     [self crossDissolveForOffset:offset];
@@ -637,8 +637,8 @@ float easeOutValue(float value) {
 #pragma mark - Actions
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
-    if(self.showSkipButtonOnlyOnLastPage) self.skipButton.alpha = 0;
-    self.startButton.alpha = 0;
+    if(self.showSkipButtonOnlyOnLastPage && _pages.count > 1) self.skipButton.alpha = 0;
+    if(_pages.count > 1)self.startButton.alpha = 0;
     
     self.alpha = 0;
     self.scrollView.contentOffset = CGPointZero;
