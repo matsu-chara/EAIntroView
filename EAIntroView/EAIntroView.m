@@ -637,9 +637,20 @@ float easeOutValue(float value) {
 #pragma mark - Actions
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
-    if(self.showSkipButtonOnlyOnLastPage && _pages.count > 1) self.skipButton.alpha = 0;
-    if(_pages.count > 1)self.startButton.alpha = 0;
-    
+    if(_pages.count > 1){
+        // visible state at first page
+        if(self.showSkipButtonOnlyOnLastPage) {
+            self.skipButton.alpha = 0.0;
+        }
+        self.startButton.alpha = 0.0;
+    }
+    else {
+        // visible state at last page
+        if(self.showStartButtonOnLastPageInsteadOfSkipButton) {
+            self.skipButton.alpha = 0.0;
+        }
+    }
+
     self.alpha = 0;
     self.scrollView.contentOffset = CGPointZero;
     [view addSubview:self];
