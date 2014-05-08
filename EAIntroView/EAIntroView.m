@@ -603,6 +603,8 @@ float easeOutValue(float value) {
 #pragma mark - Actions
 
 - (void)showInView:(UIView *)view animateDuration:(CGFloat)duration {
+    if(self.showSkipButtonOnlyOnLastPage) self.skipButton.alpha = 0;
+
     self.alpha = 0;
     self.scrollView.contentOffset = CGPointZero;
     [view addSubview:self];
