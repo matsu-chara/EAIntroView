@@ -124,6 +124,9 @@
 }
 
 - (void)skipIntroduction {
+    if ([(id)self.delegate respondsToSelector:@selector(introDidSkipped:)]) {
+		[self.delegate introDidSkipped:self];
+	}
     [self hideWithFadeOutDuration:0.3];
 }
 

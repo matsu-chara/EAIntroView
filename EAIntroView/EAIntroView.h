@@ -11,6 +11,7 @@
 @protocol EAIntroDelegate
 @optional
 - (void)introDidFinish:(EAIntroView *)introView;
+- (void)introDidSkipped:(EAIntroView *)introView;
 - (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSInteger)pageIndex;
 - (void)intro:(EAIntroView *)introView pageStartScrolling:(EAIntroPage *)page withIndex:(NSInteger)pageIndex;
 - (void)intro:(EAIntroView *)introView pageEndScrolling:(EAIntroPage *)page withIndex:(NSInteger)pageIndex;
