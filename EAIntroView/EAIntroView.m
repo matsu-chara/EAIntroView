@@ -130,6 +130,11 @@
     [self hideWithFadeOutDuration:0.3];
 }
 
+- (void)finishIntroductionViaStartButton {
+    [self hideWithFadeOutDuration:0.3];
+}
+
+
 #pragma mark - Properties
 
 - (UIScrollView *)scrollView {
@@ -337,7 +342,7 @@
     
     self.startButton = [[UIButton alloc] initWithFrame:CGRectMake(self.scrollView.frame.size.width - 80, self.pageControl.frame.origin.y - ((30 - self.pageControl.frame.size.height)/2), 80, 30)];
     [self.startButton setTitle:NSLocalizedString(@"Start", nil) forState:UIControlStateNormal];
-    [self.startButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
+    [self.startButton addTarget:self action:@selector(finishIntroductionViaStartButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.startButton];
     
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
@@ -547,7 +552,7 @@ float easeOutValue(float value) {
 - (void)setStartButton:(UIButton *)startButton {
     [_startButton removeFromSuperview];
     _startButton = startButton;
-    [_startButton addTarget:self action:@selector(skipIntroduction) forControlEvents:UIControlEventTouchUpInside];
+    [_startButton addTarget:self action:@selector(finishIntroductionViaStartButton) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_startButton];
 }
 
